@@ -159,6 +159,45 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 
 ## デプロイ
 
+### GitHub Pagesへのデプロイ（推奨）
+
+このプロジェクトはGitHub Pagesに静的サイトとしてデプロイできます。
+
+#### 1. Supabaseプロジェクトのセットアップ
+
+先に上記の「Supabaseプロジェクトの作成」と「データベースのセットアップ」を完了してください。
+
+#### 2. GitHub Secretsの設定
+
+リポジトリの Settings → Secrets and variables → Actions → New repository secret で以下の2つのシークレットを追加:
+
+- `NEXT_PUBLIC_SUPABASE_URL`: あなたのSupabaseプロジェクトURL
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY`: あなたのSupabaseプロジェクトのANON KEY
+
+#### 3. GitHub Pagesの有効化
+
+1. リポジトリの Settings → Pages に移動
+2. Source を「GitHub Actions」に設定
+3. mainブランチにプッシュすると自動的にビルド＆デプロイされます
+
+#### 4. カスタムドメインの設定（オプション）
+
+リポジトリ名がURLのパスに含まれる場合（例: `username.github.io/ridelog-map`）、`next.config.js`で以下のコメントを外してください:
+
+```javascript
+basePath: process.env.NEXT_PUBLIC_BASE_PATH || '',
+assetPrefix: process.env.NEXT_PUBLIC_BASE_PATH || '',
+```
+
+そして、GitHub Secretsに追加:
+- `NEXT_PUBLIC_BASE_PATH`: `/ridelog-map` (リポジトリ名)
+
+#### デプロイURL
+
+デプロイ後は以下のURLでアクセスできます:
+- カスタムドメインなし: `https://username.github.io/ridelog-map/`
+- カスタムドメインあり: `https://yourdomain.com/`
+
 ### Vercelへのデプロイ
 
 ```bash
@@ -166,7 +205,7 @@ npm install -g vercel
 vercel
 ```
 
-環境変数を設定することを忘れずに！
+環境変数（`NEXT_PUBLIC_SUPABASE_URL`と`NEXT_PUBLIC_SUPABASE_ANON_KEY`）を設定することを忘れずに！
 
 ## ライセンス
 
