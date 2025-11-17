@@ -38,6 +38,13 @@ interface RidePoint {
   t?: string
 }
 
+// Required for static export with dynamic routes
+// Returns empty array since rides are user-generated and unknown at build time
+// Pages will be rendered client-side on demand
+export async function generateStaticParams() {
+  return []
+}
+
 export default function RidePage() {
   const params = useParams()
   const router = useRouter()
